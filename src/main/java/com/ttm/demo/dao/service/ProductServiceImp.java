@@ -5,6 +5,8 @@ import com.ttm.demo.domaine.Product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImp implements ProductService{
@@ -14,5 +16,10 @@ public class ProductServiceImp implements ProductService{
     @Override
     public Product getProduct(Long id) {
         return productRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public List<Product> getProducts() {
+        return productRepository.findAll();
     }
 }
