@@ -98,7 +98,7 @@ public class ProductController {
                 .body(new InputStreamResource(new ByteArrayInputStream(buf)));
     }
 
-    // sending back an DTO
+    // sending back an DTO --
     @GetMapping("translation")
     public ResponseEntity<Translation> downloadTranslationFile2(@RequestParam(name = "lang") String lang){
         Translation translation;
