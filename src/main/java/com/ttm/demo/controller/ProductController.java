@@ -1,6 +1,7 @@
 package com.ttm.demo.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ttm.demo.dao.service.ProductService;
 import com.ttm.demo.domaine.Product;
@@ -20,7 +21,9 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/v1/")
@@ -63,13 +66,20 @@ public class ProductController {
             Product productFromJson = mapper.readValue(new File("product.json"), Product.class);
             System.out.println("Id = " + productFromJson.getId());
             System.out.println("Label = " + productFromJson.getLabel());
+            JsonNode jsonNode = mapper.readTree(new File("product.json"));
+            System.out.println(jsonNode.get("label").asText());
+            Iterator<Map.Entry<String, JsonNode>> fields = jsonNode.fields();
+            while (fields.hasNext()){
+                Map.Entry<String, JsonNode> next = fields.next();
+                System.out.println(next.getKey());
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
         return ResponseEntity.ok(product);
     }
 
-    // sending back an File containing a DTO
+    // sending back a File containing a DTO
     @GetMapping("translation__")
     public ResponseEntity<InputStreamResource> downloadTranslationFile(@RequestParam(name = "lang") String lang){
         Translation translation;
